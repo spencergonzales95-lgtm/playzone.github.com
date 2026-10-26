@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlayZone | Free Online Games</title>
-  <meta name="description" content="Play free online games at PlayZone.">
+  <meta name="description" content="Discover and play free online games at PlayZone.">
+
   <style>
     :root {
       --bg: #0b1020;
@@ -35,7 +36,7 @@
       gap: 20px;
       flex-wrap: wrap;
       padding: 16px 5%;
-      background: rgba(11,16,32,.96);
+      background: rgba(11, 16, 32, .97);
       border-bottom: 1px solid #26304b;
     }
 
@@ -107,7 +108,8 @@
       cursor: pointer;
     }
 
-    .filter:hover, .filter.active {
+    .filter:hover,
+    .filter.active {
       color: #08101c;
       background: var(--cyan);
       border-color: var(--cyan);
@@ -154,7 +156,6 @@
       justify-content: center;
       overflow: hidden;
       background: linear-gradient(135deg, #29265d, #143c57);
-      font-size: 52px;
     }
 
     .cover img {
@@ -253,10 +254,12 @@
     }
   </style>
 </head>
+
 <body>
   <header>
-    <!-- Clicking PlayZone reloads the main games page -->
+    <!-- Click PlayZone to return to the main games page -->
     <a class="logo" href="index.html" title="Return to all games">PlayZone</a>
+
     <input
       class="search"
       id="searchInput"
@@ -287,92 +290,148 @@
     </div>
 
     <section class="games" id="gamesGrid">
+
+      <!-- Amoeba Online -->
       <article class="game-card" data-title="Amoeba Online" data-category="arcade">
-        <div class="cover"><img src="images/amoeba.jpg" alt="Amoeba Online" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/amoeba.jpg" alt="Amoeba Online">
+        </div>
         <div class="game-info">
-          <h3>Amoeba Online</h3><p>Grow and explore in this online game.</p>
+          <h3>Amoeba Online</h3>
+          <p>Grow and explore in this online game.</p>
           <button class="play-btn" onclick="playGame('Amoeba Online','https://idev.games/embed/amoeba-online')">Play Now</button>
         </div>
       </article>
 
+      <!-- Ragdoll Sandbox -->
       <article class="game-card" data-title="Ragdoll Sandbox Physics Game" data-category="action">
-        <div class="cover"><img src="images/ragdoll.jpg" alt="Ragdoll Sandbox" onerror="this.style.display='none'">🧸</div>
+        <div class="cover">
+          <img src="images/ragdoll.jpg" alt="Ragdoll Sandbox">
+        </div>
         <div class="game-info">
-          <h3>Ragdoll Sandbox</h3><p>Experiment with physics and ragdolls.</p>
+          <h3>Ragdoll Sandbox</h3>
+          <p>Experiment with physics and ragdolls.</p>
           <button class="play-btn" onclick="playGame('Ragdoll Sandbox','https://idev.games/embed/ragdoll---sandbox-physics-game')">Play Now</button>
         </div>
       </article>
 
+      <!-- Undisputed MMA -->
       <article class="game-card" data-title="Undisputed MMA" data-category="sports">
-        <div class="cover"><img src="images/mma.jpg" alt="Undisputed MMA" onerror="this.style.display='none'">🥊</div>
+        <div class="cover">
+          <img src="images/mma.jpg" alt="Undisputed MMA">
+        </div>
         <div class="game-info">
-          <h3>Undisputed MMA</h3><p>Step into the fighting arena.</p>
+          <h3>Undisputed MMA</h3>
+          <p>Step into the fighting arena.</p>
           <button class="play-btn" onclick="playGame('Undisputed MMA','https://idev.games/embed/undisputed-mma')">Play Now</button>
         </div>
       </article>
 
+      <!-- Helix Jump -->
       <article class="game-card" data-title="Helix Jump" data-category="arcade">
-        <div class="cover"><img src="images/helix.jpg" alt="Helix Jump" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/helix.jpg" alt="Helix Jump">
+        </div>
         <div class="game-info">
-          <h3>Helix Jump</h3><p>Guide the ball through the tower.</p>
+          <h3>Helix Jump</h3>
+          <p>Guide the ball through the tower.</p>
           <button class="play-btn" onclick="playGame('Helix Jump','https://idev.games/embed/helix-jump')">Play Now</button>
         </div>
       </article>
 
+      <!-- Bitcoin Wallet Simulator -->
       <article class="game-card" data-title="Bitcoin Wallet Simulator" data-category="simulator">
-        <div class="cover"><img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator" onerror="this.style.display='none'">₿</div>
+        <div class="cover">
+          <img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator">
+        </div>
         <div class="game-info">
-          <h3>Bitcoin Wallet Simulator</h3><p>Explore a virtual wallet simulator.</p>
+          <h3>Bitcoin Wallet Simulator</h3>
+          <p>Explore a virtual wallet simulator.</p>
           <button class="play-btn" onclick="playGame('Bitcoin Wallet Simulator','https://idev.games/embed/bitcoin-wallet-simulator')">Play Now</button>
         </div>
       </article>
 
+      <!-- Gem Clicker -->
       <article class="game-card" data-title="Gem Clicker" data-category="clicker">
-        <div class="cover"><img src="images/gem.jpg" alt="Gem Clicker" onerror="this.style.display='none'">💎</div>
+        <div class="cover">
+          <img src="images/gem.jpg" alt="Gem Clicker">
+        </div>
         <div class="game-info">
-          <h3>Gem Clicker</h3><p>Click to collect gems and progress.</p>
+          <h3>Gem Clicker</h3>
+          <p>Click to collect gems and progress.</p>
           <button class="play-btn" onclick="playGame('Gem Clicker','https://idev.games/embed/gem-clicker')">Play Now</button>
         </div>
       </article>
 
+      <!-- Subway Surfers -->
       <article class="game-card" data-title="Subway Surfers" data-category="arcade">
-        <div class="cover"><img src="images/subway.jpg" alt="Subway Surfers" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/subway.jpg" alt="Subway Surfers">
+        </div>
         <div class="game-info">
-          <h3>Subway Surfers</h3><p>Run, dodge obstacles, and collect coins.</p>
+          <h3>Subway Surfers</h3>
+          <p>Run, dodge obstacles, and collect coins.</p>
           <button class="play-btn" onclick="playGame('Subway Surfers','https://www.madkidgames.com/full/subway-surfers')">Play Now</button>
         </div>
       </article>
 
+      <!-- Bowmasters -->
       <article class="game-card" data-title="Bowmasters Archery Shooting" data-category="action">
-        <div class="cover"><img src="images/bowmasters.jpg" alt="Bowmasters" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/bowmasters.jpg" alt="Bowmasters">
+        </div>
         <div class="game-info">
-          <h3>Bowmasters</h3><p>Test your aim in this archery game.</p>
+          <h3>Bowmasters</h3>
+          <p>Test your aim in this archery game.</p>
           <button class="play-btn" onclick="playGame('Bowmasters','https://www.madkidgames.com/full/bowmasters-archery-shooting')">Play Now</button>
         </div>
       </article>
 
+      <!-- Cookie Clicker -->
       <article class="game-card" data-title="Cookie Clicker" data-category="clicker">
-        <div class="cover"><img src="images/cookie.jpg" alt="Cookie Clicker" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/cookie.jpg" alt="Cookie Clicker">
+        </div>
         <div class="game-info">
-          <h3>Cookie Clicker</h3><p>Make cookies and build your cookie empire.</p>
+          <h3>Cookie Clicker</h3>
+          <p>Make cookies and build your cookie empire.</p>
           <button class="play-btn" onclick="playGame('Cookie Clicker','cookie-clicker/index.html')">Play Now</button>
         </div>
       </article>
 
+      <!-- Geometry Dash Lite -->
       <article class="game-card" data-title="Geometry Dash Lite" data-category="arcade">
-        <div class="cover"><img src="images/geometry-dash.jpg" alt="Geometry Dash Lite" onerror="this.style.display='none'"></div>
+        <div class="cover">
+          <img src="images/geometry-dash.jpg" alt="Geometry Dash Lite">
+        </div>
         <div class="game-info">
-          <h3>Geometry Dash Lite</h3><p>Jump over obstacles and test your timing.</p>
+          <h3>Geometry Dash Lite</h3>
+          <p>Jump over obstacles and test your timing.</p>
           <button class="play-btn" onclick="playGame('Geometry Dash Lite','geometry-dash.html')">Play Now</button>
         </div>
       </article>
+
+      <!-- Hole.io -->
+      <article class="game-card" data-title="Hole.io" data-category="arcade">
+        <div class="cover">
+          <img src="images/hole-io.jpg" alt="Hole.io">
+        </div>
+        <div class="game-info">
+          <h3>Hole.io</h3>
+          <p>Swallow objects and grow your hole as big as possible!</p>
+          <button class="play-btn" onclick="playGame('Hole.io','hole-io.html')">Play Now</button>
+        </div>
+      </article>
+
     </section>
 
+    <!-- Game player -->
     <section id="playerSection">
       <div class="player-top">
         <h2 id="playerTitle">Now Playing</h2>
         <button class="back-btn" onclick="closeGame()">← Back to all games</button>
       </div>
+
       <iframe
         id="gameFrame"
         title="Game player"
@@ -380,7 +439,11 @@
         allowfullscreen
         loading="lazy"
       ></iframe>
-      <p class="hint">Game not loading? The game host may block embedding. Try opening the game on its original website.</p>
+
+      <p class="hint">
+        If a game does not load, its hosting website may block embedding.
+        You can try opening that game from its original website.
+      </p>
     </section>
   </main>
 
@@ -391,6 +454,7 @@
     const cards = [...document.querySelectorAll('.game-card')];
     const filters = [...document.querySelectorAll('.filter')];
     const gameCount = document.getElementById('gameCount');
+
     let activeCategory = 'all';
 
     function updateGames() {
@@ -398,22 +462,31 @@
       let visible = 0;
 
       cards.forEach(card => {
-        const matchesSearch = card.dataset.title.toLowerCase().includes(search);
-        const matchesCategory = activeCategory === 'all' ||
-          card.dataset.category === activeCategory;
-        const show = matchesSearch && matchesCategory;
+        const matchesSearch =
+          card.dataset.title.toLowerCase().includes(search);
 
+        const matchesCategory =
+          activeCategory === 'all' ||
+          card.dataset.category === activeCategory;
+
+        const show = matchesSearch && matchesCategory;
         card.style.display = show ? '' : 'none';
+
         if (show) visible++;
       });
 
-      gameCount.textContent = visible + (visible === 1 ? ' game' : ' games');
+      gameCount.textContent =
+        visible + (visible === 1 ? ' game' : ' games');
     }
 
     filters.forEach(button => {
       button.addEventListener('click', () => {
         activeCategory = button.dataset.category;
-        filters.forEach(filter => filter.classList.toggle('active', filter === button));
+
+        filters.forEach(filter => {
+          filter.classList.toggle('active', filter === button);
+        });
+
         updateGames();
       });
     });
@@ -421,16 +494,23 @@
     searchInput.addEventListener('input', updateGames);
 
     function playGame(title, url) {
+      const player = document.getElementById('playerSection');
+      const frame = document.getElementById('gameFrame');
+
       document.getElementById('playerTitle').textContent = title;
-      document.getElementById('gameFrame').src = url;
-      document.getElementById('playerSection').style.display = 'block';
-      document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+      frame.src = url;
+      player.style.display = 'block';
+
+      player.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function closeGame() {
       document.getElementById('gameFrame').src = '';
       document.getElementById('playerSection').style.display = 'none';
-      document.getElementById('gamesGrid').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('gamesGrid').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
 
     updateGames();
