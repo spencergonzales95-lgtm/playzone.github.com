@@ -2,628 +2,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayZone | Online Games</title>
-<meta name="description" content="Play browser games on PlayZone, including arcade, physics, sports, and clicker games.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayZone | Free Online Games</title>
+  <meta name="description" content="Play free online games at PlayZone.">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #141b30;
+      --panel2: #1b2540;
+      --text: #f4f7ff;
+      --muted: #a7b2cc;
+      --cyan: #43e7ff;
+      --purple: #8b5cf6;
+    }
 
-<style>
-:root {
-  --bg: #080b18;
-  --panel: #10162b;
-  --border: #293968;
-  --purple: #713cff;
-  --cyan: #00e5ff;
-  --text: #f5f7ff;
-  --muted: #aebbdc;
-}
+    * { box-sizing: border-box; }
 
-* { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: radial-gradient(ellipse at top left, #21114b, transparent 38%), var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 16px 5%;
+      background: rgba(11,16,32,.96);
+      border-bottom: 1px solid #26304b;
+    }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
+    .logo {
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      white-space: nowrap;
+    }
 
-header {
-  border-bottom: 1px solid var(--border);
-  background: rgba(8,11,24,.95);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
+    .logo:hover { color: white; }
 
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  padding: 16px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
+    .search {
+      flex: 1;
+      min-width: 180px;
+      padding: 12px 15px;
+      border: 1px solid #303c5d;
+      border-radius: 12px;
+      outline: none;
+      color: white;
+      background: var(--panel);
+      font-size: 15px;
+    }
 
-.logo {
-  font-size: 27px;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
+    .search:focus { border-color: var(--cyan); }
 
-.logo span { color: var(--cyan); }
+    main {
+      width: 90%;
+      max-width: 1400px;
+      margin: 30px auto;
+    }
 
-.search {
-  width: min(330px, 55%);
-  padding: 12px 15px;
-  border: 1px solid var(--border);
-  border-radius: 25px;
-  background: var(--panel);
-  color: white;
-  outline: none;
-}
+    .hero {
+      padding: 35px;
+      margin-bottom: 25px;
+      border: 1px solid #34315f;
+      border-radius: 22px;
+      background: linear-gradient(120deg, #20224a, #102a43, #17152f);
+    }
 
-.search:focus { border-color: var(--cyan); }
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 5vw, 48px);
+    }
 
-main {
-  max-width: 1200px;
-  margin: auto;
-  padding: 24px 20px 50px;
-}
+    .hero h1 span { color: var(--cyan); }
 
-.hero {
-  padding: 40px;
-  min-height: 220px;
-  border: 1px solid #4335a4;
-  border-radius: 18px;
-  background:
-    radial-gradient(ellipse at 85% 50%, #352080, transparent 38%),
-    linear-gradient(110deg, #101a46, #11102e);
-  margin-bottom: 30px;
-}
+    .hero p {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
 
-.eyebrow {
-  color: var(--cyan);
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 1.5px;
-}
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 25px;
+    }
 
-.hero h1 {
-  margin: 12px 0;
-  font-size: clamp(32px, 5vw, 52px);
-  line-height: 1.05;
-}
+    .filter {
+      padding: 10px 15px;
+      border: 1px solid #303c5d;
+      border-radius: 999px;
+      color: var(--text);
+      background: var(--panel);
+      cursor: pointer;
+    }
 
-.hero h1 span { color: var(--cyan); }
+    .filter:hover, .filter.active {
+      color: #08101c;
+      background: var(--cyan);
+      border-color: var(--cyan);
+    }
 
-.hero p {
-  color: var(--muted);
-  line-height: 1.6;
-  max-width: 520px;
-}
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 25px 0 18px;
+    }
 
-.primary-btn {
-  background: linear-gradient(110deg, #693cff, #8b40ff);
-  color: white;
-  border: 0;
-  padding: 12px 19px;
-  border-radius: 10px;
-  font-weight: bold;
-}
+    .section-title h2 { margin: 0; }
 
-.primary-btn:hover { filter: brightness(1.15); }
+    #gameCount {
+      color: var(--muted);
+      font-size: 14px;
+    }
 
-.section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 20px;
+    }
 
-.section-heading h2 { margin: 0 0 6px; font-size: 27px; }
-.section-heading p { margin: 0; color: var(--muted); }
-#gameCount { color: var(--muted); white-space: nowrap; }
+    .game-card {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid #273451;
+      border-radius: 17px;
+      transition: transform .18s, border-color .18s;
+    }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 20px;
-}
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--purple);
+    }
 
-.filter-btn {
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--muted);
-  border-radius: 25px;
-  padding: 9px 17px;
-}
+    .cover {
+      height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #29265d, #143c57);
+      font-size: 52px;
+    }
 
-.filter-btn:hover, .filter-btn.active {
-  background: var(--purple);
-  border-color: var(--purple);
-  color: white;
-}
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-.game-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
+    .game-info { padding: 15px; }
 
-.game-card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  min-width: 0;
-  transition: transform .2s, border-color .2s;
-}
+    .game-info h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
 
-.game-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--purple);
-}
+    .game-info p {
+      margin: 0 0 14px;
+      min-height: 34px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
 
-.cover {
-  height: 160px;
-  position: relative;
-  overflow: hidden;
-  background: #14182a;
-}
+    .play-btn {
+      width: 100%;
+      padding: 11px;
+      border: 0;
+      border-radius: 10px;
+      color: #08101c;
+      background: var(--cyan);
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.cover img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  transition: transform .25s;
-}
+    .play-btn:hover { background: white; }
 
-.game-card:hover .cover img { transform: scale(1.06); }
+    #playerSection {
+      display: none;
+      margin-top: 25px;
+      padding: 18px;
+      border: 1px solid #303c5d;
+      border-radius: 18px;
+      background: var(--panel);
+    }
 
-.cover-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 54px;
-  background: linear-gradient(135deg, #24215e, #111b3c);
-}
+    .player-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
 
-.card-content { padding: 13px; }
+    .player-top h2 { margin: 0; }
 
-.card-content h3 {
-  font-size: 16px;
-  margin: 0 0 8px;
-  line-height: 1.3;
-}
+    .back-btn {
+      padding: 10px 15px;
+      border: 1px solid #435171;
+      border-radius: 10px;
+      color: white;
+      background: var(--panel2);
+      cursor: pointer;
+    }
 
-.card-content p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-  min-height: 38px;
-  margin: 0 0 13px;
-}
+    #gameFrame {
+      display: block;
+      width: 100%;
+      height: min(72vh, 750px);
+      min-height: 400px;
+      border: 0;
+      border-radius: 12px;
+      background: #000;
+    }
 
-.card-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
 
-.tag {
-  display: inline-block;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  font-weight: bold;
-  padding: 5px 8px;
-  border-radius: 20px;
-  background: #302078;
-  color: #ddd3ff;
-}
+    footer {
+      padding: 30px 5%;
+      margin-top: 50px;
+      border-top: 1px solid #26304b;
+      color: var(--muted);
+      text-align: center;
+    }
 
-.play-btn {
-  border: 1px solid #394a80;
-  background: #182347;
-  color: white;
-  border-radius: 20px;
-  padding: 7px 11px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.play-btn:hover { background: var(--purple); }
-
-.empty-message {
-  display: none;
-  color: var(--muted);
-  text-align: center;
-  padding: 40px 10px;
-}
-
-#playerSection {
-  display: none;
-  margin-top: 32px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 18px;
-}
-
-.player-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 15px;
-}
-
-.player-heading h2 { margin: 0; }
-
-.player-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.control-btn {
-  background: #1c274b;
-  border: 1px solid var(--border);
-  color: white;
-  padding: 9px 12px;
-  border-radius: 8px;
-}
-
-.control-btn:hover { background: var(--purple); }
-
-#gameFrame {
-  width: 100%;
-  height: min(70vh, 700px);
-  min-height: 420px;
-  display: block;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #050711;
-}
-
-.player-note {
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--muted);
-}
-
-footer {
-  border-top: 1px solid var(--border);
-  padding: 25px 20px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-}
-
-@media (max-width: 950px) {
-  .game-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-
-@media (max-width: 650px) {
-  .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .hero { padding: 25px 20px; }
-  .cover { height: 125px; }
-  .card-content { padding: 10px; }
-  .card-content h3 { font-size: 14px; }
-  .card-content p { font-size: 12px; }
-  .logo { font-size: 22px; }
-  .nav { padding: 13px; }
-  main { padding: 18px 12px 35px; }
-  #gameFrame { min-height: 350px; }
-}
-
-@media (max-width: 380px) {
-  .game-grid { grid-template-columns: 1fr; }
-  .cover { height: 180px; }
-}
-</style>
+    @media (max-width: 600px) {
+      header { gap: 12px; }
+      .logo { font-size: 23px; }
+      main { width: 92%; }
+      .hero { padding: 24px; }
+      #gameFrame { min-height: 350px; }
+    }
+  </style>
 </head>
-
 <body>
-<header>
-  <div class="nav">
-    <div class="logo">▶ Play<span>Zone</span></div>
-    <input id="searchInput" class="search" type="search"
-      placeholder="🔎 Search games..." aria-label="Search games">
-  </div>
-</header>
+  <header>
+    <!-- Clicking PlayZone reloads the main games page -->
+    <a class="logo" href="index.html" title="Return to all games">PlayZone</a>
+    <input
+      class="search"
+      id="searchInput"
+      type="search"
+      placeholder="Search games..."
+      aria-label="Search games"
+    >
+  </header>
 
-<main>
-  <section class="hero">
-    <div class="eyebrow">Your next game is waiting</div>
-    <h1>Press play.<br><span>Enter the zone.</span></h1>
-    <p>Arcade games, clickers, sports, and physics games — all in one place. Pick a game and jump straight in.</p>
-    <button class="primary-btn" onclick="scrollToGames()">Explore games →</button>
-  </section>
+  <main>
+    <section class="hero">
+      <h1>Your next favorite game starts <span>here.</span></h1>
+      <p>Welcome to PlayZone — discover and play free online games.</p>
+    </section>
 
-  <section id="library">
-    <div class="section-heading">
-      <div>
-        <h2>Game Library</h2>
-        <p>Choose a game to start playing.</p>
+    <div class="filters" aria-label="Game categories">
+      <button class="filter active" data-category="all">All Games</button>
+      <button class="filter" data-category="arcade">Arcade</button>
+      <button class="filter" data-category="action">Action</button>
+      <button class="filter" data-category="sports">Sports</button>
+      <button class="filter" data-category="simulator">Simulator</button>
+      <button class="filter" data-category="clicker">Clicker</button>
+    </div>
+
+    <div class="section-title">
+      <h2>All Games</h2>
+      <span id="gameCount"></span>
+    </div>
+
+    <section class="games" id="gamesGrid">
+      <article class="game-card" data-title="Amoeba Online" data-category="arcade">
+        <div class="cover"><img src="images/amoeba.jpg" alt="Amoeba Online" onerror="this.style.display='none'"></div>
+        <div class="game-info">
+          <h3>Amoeba Online</h3><p>Grow and explore in this online game.</p>
+          <button class="play-btn" onclick="playGame('Amoeba Online','https://idev.games/embed/amoeba-online')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Ragdoll Sandbox Physics Game" data-category="action">
+        <div class="cover"><img src="images/ragdoll.jpg" alt="Ragdoll Sandbox" onerror="this.style.display='none'">🧸</div>
+        <div class="game-info">
+          <h3>Ragdoll Sandbox</h3><p>Experiment with physics and ragdolls.</p>
+          <button class="play-btn" onclick="playGame('Ragdoll Sandbox','https://idev.games/embed/ragdoll---sandbox-physics-game')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Undisputed MMA" data-category="sports">
+        <div class="cover"><img src="images/mma.jpg" alt="Undisputed MMA" onerror="this.style.display='none'">🥊</div>
+        <div class="game-info">
+          <h3>Undisputed MMA</h3><p>Step into the fighting arena.</p>
+          <button class="play-btn" onclick="playGame('Undisputed MMA','https://idev.games/embed/undisputed-mma')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Helix Jump" data-category="arcade">
+        <div class="cover"><img src="images/helix.jpg" alt="Helix Jump" onerror="this.style.display='none'">🌀</div>
+        <div class="game-info">
+          <h3>Helix Jump</h3><p>Guide the ball through the tower.</p>
+          <button class="play-btn" onclick="playGame('Helix Jump','https://idev.games/embed/helix-jump')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Bitcoin Wallet Simulator" data-category="simulator">
+        <div class="cover"><img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator" onerror="this.style.display='none'">₿</div>
+        <div class="game-info">
+          <h3>Bitcoin Wallet Simulator</h3><p>Explore a virtual wallet simulator.</p>
+          <button class="play-btn" onclick="playGame('Bitcoin Wallet Simulator','https://idev.games/embed/bitcoin-wallet-simulator')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Gem Clicker" data-category="clicker">
+        <div class="cover"><img src="images/gem.jpg" alt="Gem Clicker" onerror="this.style.display='none'">💎</div>
+        <div class="game-info">
+          <h3>Gem Clicker</h3><p>Click to collect gems and progress.</p>
+          <button class="play-btn" onclick="playGame('Gem Clicker','https://idev.games/embed/gem-clicker')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Subway Surfers" data-category="arcade">
+        <div class="cover"><img src="images/subway.jpg" alt="Subway Surfers" onerror="this.style.display='none'">🚆</div>
+        <div class="game-info">
+          <h3>Subway Surfers</h3><p>Run, dodge obstacles, and collect coins.</p>
+          <button class="play-btn" onclick="playGame('Subway Surfers','https://www.madkidgames.com/full/subway-surfers')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Bowmasters Archery Shooting" data-category="action">
+        <div class="cover"><img src="images/bowmasters.jpg" alt="Bowmasters" onerror="this.style.display='none'">🏹</div>
+        <div class="game-info">
+          <h3>Bowmasters</h3><p>Test your aim in this archery game.</p>
+          <button class="play-btn" onclick="playGame('Bowmasters','https://www.madkidgames.com/full/bowmasters-archery-shooting')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Cookie Clicker" data-category="clicker">
+        <div class="cover"><img src="images/cookie.jpg" alt="Cookie Clicker" onerror="this.style.display='none'">🍪</div>
+        <div class="game-info">
+          <h3>Cookie Clicker</h3><p>Make cookies and build your cookie empire.</p>
+          <button class="play-btn" onclick="playGame('Cookie Clicker','cookie-clicker/index.html')">Play Now</button>
+        </div>
+      </article>
+
+      <article class="game-card" data-title="Geometry Dash Lite" data-category="arcade">
+        <div class="cover"><img src="images/geometry-dash.jpg" alt="Geometry Dash Lite" onerror="this.style.display='none'">🔷</div>
+        <div class="game-info">
+          <h3>Geometry Dash Lite</h3><p>Jump over obstacles and test your timing.</p>
+          <button class="play-btn" onclick="playGame('Geometry Dash Lite','geometry-dash.html')">Play Now</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="playerSection">
+      <div class="player-top">
+        <h2 id="playerTitle">Now Playing</h2>
+        <button class="back-btn" onclick="closeGame()">← Back to all games</button>
       </div>
-      <span id="gameCount">10 games</span>
-    </div>
+      <iframe
+        id="gameFrame"
+        title="Game player"
+        allow="fullscreen; autoplay; gamepad"
+        allowfullscreen
+        loading="lazy"
+      ></iframe>
+      <p class="hint">Game not loading? The game host may block embedding. Try opening the game on its original website.</p>
+    </section>
+  </main>
 
-    <div class="filters" aria-label="Filter games by category">
-      <button class="filter-btn active" data-category="all">All Games</button>
-      <button class="filter-btn" data-category="arcade">Arcade</button>
-      <button class="filter-btn" data-category="physics">Physics</button>
-      <button class="filter-btn" data-category="sports">Sports</button>
-      <button class="filter-btn" data-category="clickers">Clickers</button>
-      <button class="filter-btn" data-category="simulators">Simulators</button>
-    </div>
+  <footer>PlayZone · Free online games</footer>
 
-    <div class="game-grid" id="gameGrid">
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const cards = [...document.querySelectorAll('.game-card')];
+    const filters = [...document.querySelectorAll('.filter')];
+    const gameCount = document.getElementById('gameCount');
+    let activeCategory = 'all';
 
-      <article class="game-card" data-category="arcade" data-title="amoeba online">
-        <div class="cover">
-          <img src="images/amoeba.jpg" alt="Amoeba Online"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🦠</div>
-        </div>
-        <div class="card-content">
-          <h3>Amoeba Online</h3>
-          <p>A quirky online arcade game.</p>
-          <div class="card-bottom"><span class="tag">Arcade</span>
-          <button class="play-btn" onclick="playGame('Amoeba Online','https://idev.games/embed/amoeba-online')">PLAY ↗</button></div>
-        </div>
-      </article>
+    function updateGames() {
+      const search = searchInput.value.trim().toLowerCase();
+      let visible = 0;
 
-      <article class="game-card" data-category="physics" data-title="ragdoll sandbox physics game">
-        <div class="cover">
-          <img src="images/ragdoll.jpg" alt="Ragdoll Physics"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🤸</div>
-        </div>
-        <div class="card-content">
-          <h3>Ragdoll – Sandbox Physics</h3>
-          <p>Mess around with ragdolls and physics.</p>
-          <div class="card-bottom"><span class="tag">Physics</span>
-          <button class="play-btn" onclick="playGame('Ragdoll – Sandbox Physics','https://idev.games/embed/ragdoll---sandbox-physics-game')">PLAY ↗</button></div>
-        </div>
-      </article>
+      cards.forEach(card => {
+        const matchesSearch = card.dataset.title.toLowerCase().includes(search);
+        const matchesCategory = activeCategory === 'all' ||
+          card.dataset.category === activeCategory;
+        const show = matchesSearch && matchesCategory;
 
-      <article class="game-card" data-category="sports" data-title="undisputed mma">
-        <div class="cover">
-          <img src="images/mma.jpg" alt="Undisputed MMA"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🥊</div>
-        </div>
-        <div class="card-content">
-          <h3>Undisputed MMA</h3>
-          <p>Step into the ring in this MMA game.</p>
-          <div class="card-bottom"><span class="tag">Sports</span>
-          <button class="play-btn" onclick="playGame('Undisputed MMA','https://idev.games/embed/undisputed-mma')">PLAY ↗</button></div>
-        </div>
-      </article>
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
 
-      <article class="game-card" data-category="arcade" data-title="helix jump">
-        <div class="cover">
-          <img src="images/helix.jpg" alt="Helix Jump"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🌀</div>
-        </div>
-        <div class="card-content">
-          <h3>Helix Jump</h3>
-          <p>Guide the bouncing ball down the helix tower.</p>
-          <div class="card-bottom"><span class="tag">Arcade</span>
-          <button class="play-btn" onclick="playGame('Helix Jump','https://idev.games/embed/helix-jump')">PLAY ↗</button></div>
-        </div>
-      </article>
+      gameCount.textContent = visible + (visible === 1 ? ' game' : ' games');
+    }
 
-      <article class="game-card" data-category="simulators" data-title="bitcoin wallet simulator">
-        <div class="cover">
-          <img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">₿</div>
-        </div>
-        <div class="card-content">
-          <h3>Bitcoin Wallet Simulator</h3>
-          <p>Explore a pretend crypto wallet simulator.</p>
-          <div class="card-bottom"><span class="tag">Simulator</span>
-          <button class="play-btn" onclick="playGame('Bitcoin Wallet Simulator','https://idev.games/embed/bitcoin-wallet-simulator')">PLAY ↗</button></div>
-        </div>
-      </article>
+    filters.forEach(button => {
+      button.addEventListener('click', () => {
+        activeCategory = button.dataset.category;
+        filters.forEach(filter => filter.classList.toggle('active', filter === button));
+        updateGames();
+      });
+    });
 
-      <article class="game-card" data-category="clickers" data-title="gem clicker">
-        <div class="cover">
-          <img src="images/gem.jpg" alt="Gem Clicker"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">💎</div>
-        </div>
-        <div class="card-content">
-          <h3>Gem Clicker</h3>
-          <p>Click your way through a sparkling gem game.</p>
-          <div class="card-bottom"><span class="tag">Clicker</span>
-          <button class="play-btn" onclick="playGame('Gem Clicker','https://idev.games/embed/gem-clicker')">PLAY ↗</button></div>
-        </div>
-      </article>
+    searchInput.addEventListener('input', updateGames);
 
-      <article class="game-card" data-category="arcade" data-title="subway surfers">
-        <div class="cover">
-          <img src="images/subway.jpg" alt="Subway Surfers"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🚆</div>
-        </div>
-        <div class="card-content">
-          <h3>Subway Surfers</h3>
-          <p>Run, dodge obstacles, and collect coins.</p>
-          <div class="card-bottom"><span class="tag">Arcade</span>
-          <button class="play-btn" onclick="playGame('Subway Surfers','https://www.madkidgames.com/full/subway-surfers')">PLAY ↗</button></div>
-        </div>
-      </article>
+    function playGame(title, url) {
+      document.getElementById('playerTitle').textContent = title;
+      document.getElementById('gameFrame').src = url;
+      document.getElementById('playerSection').style.display = 'block';
+      document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
+    }
 
-      <article class="game-card" data-category="sports" data-title="bowmasters archery shooting">
-        <div class="cover">
-          <img src="images/bowmasters.jpg" alt="Bowmasters"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🏹</div>
-        </div>
-        <div class="card-content">
-          <h3>Bowmasters Archery Shooting</h3>
-          <p>Aim carefully and test your archery skills.</p>
-          <div class="card-bottom"><span class="tag">Sports</span>
-          <button class="play-btn" onclick="playGame('Bowmasters Archery Shooting','https://www.madkidgames.com/full/bowmasters-archery-shooting')">PLAY ↗</button></div>
-        </div>
-      </article>
+    function closeGame() {
+      document.getElementById('gameFrame').src = '';
+      document.getElementById('playerSection').style.display = 'none';
+      document.getElementById('gamesGrid').scrollIntoView({ behavior: 'smooth' });
+    }
 
-      <article class="game-card" data-category="clickers" data-title="cookie clicker">
-        <div class="cover">
-          <img src="images/cookie.jpg" alt="Cookie Clicker"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🍪</div>
-        </div>
-        <div class="card-content">
-          <h3>Cookie Clicker</h3>
-          <p>Bake cookies, buy upgrades, and grow your cookie empire.</p>
-          <div class="card-bottom"><span class="tag">Clicker</span>
-          <button class="play-btn" onclick="playGame('Cookie Clicker','cookie-clicker/index.html')">PLAY ↗</button></div>
-        </div>
-      </article>
-
-      <!-- GEOMETRY DASH LITE -->
-      <article class="game-card" data-category="arcade" data-title="geometry dash lite">
-        <div class="cover">
-          <img src="images/geometry-dash.jpg" alt="Geometry Dash Lite"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="cover-fallback" style="display:none">🟩</div>
-        </div>
-        <div class="card-content">
-          <h3>Geometry Dash Lite</h3>
-          <p>Jump over obstacles and test your timing.</p>
-          <div class="card-bottom"><span class="tag">Arcade</span>
-          <button class="play-btn" onclick="playGame('Geometry Dash Lite','geometry-dash.html')">PLAY ↗</button></div>
-        </div>
-      </article>
-
-    </div>
-
-    <div class="empty-message" id="emptyMessage">No games found. Try another search.</div>
-  </section>
-
-  <section id="playerSection">
-    <div class="player-heading">
-      <h2 id="playerTitle">Now Playing</h2>
-      <div class="player-controls">
-        <button class="control-btn" onclick="restartGame()">↻ Restart</button>
-        <button class="control-btn" onclick="openGameTab()">↗ Open in New Tab</button>
-        <button class="control-btn" onclick="fullscreenGame()">⛶ Fullscreen</button>
-        <button class="control-btn" onclick="closeGame()">✕ Close</button>
-      </div>
-    </div>
-    <iframe id="gameFrame" title="Selected game"
-      src="about:blank"
-      allow="fullscreen; autoplay; gamepad"
-      allowfullscreen loading="lazy"
-      referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    <p class="player-note">
-      Some external games block iframe embedding. If a game does not load,
-      choose Open in New Tab to try it on its original website.
-    </p>
-  </section>
-</main>
-
-<footer>
-  <div class="logo">▶ Play<span>Zone</span></div>
-  <p>Your next game is just one click away.</p>
-</footer>
-
-<script>
-const searchInput = document.getElementById("searchInput");
-const gameCards = [...document.querySelectorAll(".game-card")];
-const filterButtons = [...document.querySelectorAll(".filter-btn")];
-const gameCount = document.getElementById("gameCount");
-const emptyMessage = document.getElementById("emptyMessage");
-
-let selectedCategory = "all";
-let currentGameUrl = "";
-
-function scrollToGames() {
-  document.getElementById("library").scrollIntoView({ behavior: "smooth" });
-}
-
-function filterGames() {
-  const query = searchInput.value.trim().toLowerCase();
-  let visibleCount = 0;
-
-  gameCards.forEach(card => {
-    const title = card.dataset.title || "";
-    const category = card.dataset.category || "";
-    const visible =
-      title.includes(query) &&
-      (selectedCategory === "all" || category === selectedCategory);
-
-    card.style.display = visible ? "" : "none";
-    if (visible) visibleCount++;
-  });
-
-  gameCount.textContent = visibleCount + (visibleCount === 1 ? " game" : " games");
-  emptyMessage.style.display = visibleCount === 0 ? "block" : "none";
-}
-
-searchInput.addEventListener("input", filterGames);
-
-filterButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach(item => item.classList.remove("active"));
-    button.classList.add("active");
-    selectedCategory = button.dataset.category;
-    filterGames();
-  });
-});
-
-function playGame(title, url) {
-  currentGameUrl = url;
-  document.getElementById("playerTitle").textContent = "Playing: " + title;
-  document.getElementById("playerSection").style.display = "block";
-  document.getElementById("gameFrame").src = url;
-  document.getElementById("playerSection").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
-
-function restartGame() {
-  if (currentGameUrl) {
-    document.getElementById("gameFrame").src = currentGameUrl;
-  }
-}
-
-function openGameTab() {
-  if (currentGameUrl) {
-    window.open(currentGameUrl, "_blank", "noopener,noreferrer");
-  }
-}
-
-function fullscreenGame() {
-  const frame = document.getElementById("gameFrame");
-  if (frame.requestFullscreen) frame.requestFullscreen();
-}
-
-function closeGame() {
-  document.getElementById("gameFrame").src = "about:blank";
-  document.getElementById("playerSection").style.display = "none";
-  currentGameUrl = "";
-}
-</script>
+    updateGames();
+  </script>
 </body>
 </html>
