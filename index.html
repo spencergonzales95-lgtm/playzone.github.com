@@ -2,456 +2,932 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayZone | Browser Games</title>
-<style>
-:root {
-  --bg:#090d1a;
-  --panel:#121a30;
-  --panel2:#192440;
-  --text:#f4f7ff;
-  --muted:#aab5d0;
-  --cyan:#48e0ff;
-  --purple:#9b78ff;
-  --border:rgba(255,255,255,.1);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:radial-gradient(ellipse at top,#17244a,var(--bg) 55%);
-  color:var(--text);
-  min-height:100vh;
-}
-button,input{font:inherit}
-button{cursor:pointer}
-header{
-  position:sticky;top:0;z-index:10;
-  background:rgba(9,13,26,.94);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(14px);
-}
-.nav{
-  max-width:1250px;margin:auto;padding:16px 22px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:18px;flex-wrap:wrap;
-}
-.logo{color:var(--text);font-size:26px;font-weight:900;text-decoration:none}
-.logo span{color:var(--cyan)}
-.search{
-  width:min(360px,100%);background:var(--panel);
-  color:var(--text);border:1px solid var(--border);
-  border-radius:12px;padding:12px 15px;outline:none;
-}
-.search:focus{border-color:var(--cyan)}
-main{max-width:1250px;padding:30px 22px 60px;margin:auto}
-.hero{
-  padding:48px 28px;border:1px solid var(--border);
-  border-radius:24px;
-  background:linear-gradient(120deg,rgba(72,224,255,.12),rgba(155,120,255,.15));
-  margin-bottom:28px;
-}
-.hero h1{font-size:clamp(34px,6vw,58px);margin:0 0 12px;letter-spacing:-2px}
-.hero h1 span{color:var(--cyan)}
-.hero p{color:var(--muted);font-size:17px;line-height:1.6;max-width:650px}
-.toolbar,.filters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
-.toolbar button,.filters button{
-  border:1px solid var(--border);color:var(--text);
-  background:var(--panel);padding:10px 15px;border-radius:10px;
-}
-.toolbar button:hover,.filters button:hover,
-.toolbar button.active,.filters button.active{
-  background:var(--cyan);color:#07111d;border-color:var(--cyan);
-}
-.section-heading{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;margin:28px 0 16px;
-}
-.section-heading h2{margin:0;font-size:25px}
-#gameCount{color:var(--muted);font-size:14px}
-.game-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:18px;
-}
-.game-card{
-  min-width:0;overflow:hidden;border:1px solid var(--border);
-  border-radius:17px;background:linear-gradient(160deg,var(--panel2),var(--panel));
-  transition:transform .18s,border-color .18s;
-}
-.game-card:hover{transform:translateY(-4px);border-color:rgba(72,224,255,.5)}
-.cover{height:145px;background:linear-gradient(135deg,#17254a,#30204f);overflow:hidden}
-.cover img{width:100%;height:100%;display:block;object-fit:cover}
-.game-info{padding:15px}
-.game-info h3{margin:0 0 8px;font-size:18px}
-.game-info p{color:var(--muted);font-size:13px;line-height:1.5;min-height:39px;margin:0 0 14px}
-.card-actions{display:flex;gap:8px}
-.play-btn,.fav-btn{border:0;border-radius:9px;padding:11px;font-weight:bold}
-.play-btn{flex:1;background:var(--cyan);color:#06111c}
-.play-btn:hover{filter:brightness(1.1)}
-.fav-btn{min-width:44px;color:var(--text);background:#293454;font-size:20px}
-.fav-btn.is-favorite{color:#ff8da8;background:#49223b}
-.empty-state{
-  padding:35px 20px;text-align:center;color:var(--muted);
-  background:var(--panel);border:1px solid var(--border);border-radius:15px;
-}
-.player-panel{
-  display:none;margin-top:35px;border:1px solid var(--border);
-  background:var(--panel);border-radius:18px;overflow:hidden;
-}
-.player-top{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:15px 18px;flex-wrap:wrap;
-}
-.player-top h2{margin:0;font-size:20px}
-.player-controls{display:flex;gap:8px}
-.player-controls button{
-  border:1px solid var(--border);border-radius:8px;
-  padding:9px 12px;background:var(--panel2);color:var(--text);
-}
-#gameFrame{
-  display:block;width:100%;height:min(72vh,720px);
-  min-height:420px;background:#05070d;border:0;
-}
-.player-note{padding:12px 18px;color:var(--muted);font-size:12px;line-height:1.5}
-footer{border-top:1px solid var(--border);padding:25px;text-align:center;color:var(--muted);font-size:13px}
-.hidden{display:none!important}
-@media(max-width:600px){
-  .nav{padding:14px}
-  main{padding:20px 14px 40px}
-  .hero{padding:32px 20px}
-  .game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .cover{height:110px}
-  .game-info{padding:11px}
-  .game-info h3{font-size:15px}
-  .game-info p{font-size:12px}
-  .play-btn{padding:10px 5px;font-size:12px}
-  .fav-btn{min-width:38px}
-  #gameFrame{min-height:300px;height:65vh}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayZone - Browser Games</title>
+  <meta name="description" content="Play free browser games on PlayZone. Discover arcade, action, sports, simulator, and clicker games.">
+
+  <style>
+    :root {
+      --bg: #080b16;
+      --panel: #11172a;
+      --panel-light: #19213a;
+      --text: #f4f7ff;
+      --muted: #a5aec8;
+      --cyan: #48e5ff;
+      --purple: #9870ff;
+      --border: rgba(255,255,255,.09);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background:
+        radial-gradient(ellipse at top left, #17204a 0, transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 16px 5%;
+      background: rgba(8,11,22,.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+
+    .logo {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      white-space: nowrap;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    .search-box {
+      width: min(360px, 55%);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 15px;
+      color: var(--text);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--cyan);
+    }
+
+    main {
+      width: min(1200px, 90%);
+      margin: auto;
+      padding: 42px 0 70px;
+    }
+
+    .hero {
+      padding: 45px 0 35px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      max-width: 750px;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: var(--cyan);
+    }
+
+    .hero p {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 25px 0 18px;
+    }
+
+    .view-buttons, .categories {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar button, .categories button {
+      padding: 10px 15px;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: .2s;
+    }
+
+    .toolbar button:hover,
+    .categories button:hover {
+      color: var(--text);
+      border-color: var(--cyan);
+    }
+
+    .toolbar button.active,
+    .categories button.active {
+      color: #07101a;
+      background: var(--cyan);
+      border-color: var(--cyan);
+      font-weight: bold;
+    }
+
+    .categories {
+      margin-bottom: 28px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0 18px;
+    }
+
+    .section-heading h2 {
+      font-size: 23px;
+    }
+
+    .section-heading span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .game-card {
+      min-width: 0;
+      overflow: hidden;
+      background: linear-gradient(150deg, var(--panel-light), var(--panel));
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      transition: transform .2s, border-color .2s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(72,229,255,.5);
+    }
+
+    .game-image {
+      height: 165px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 25% 25%, rgba(72,229,255,.2), transparent 40%),
+        linear-gradient(135deg, #202d55, #151329);
+    }
+
+    .game-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .game-image .image-fallback {
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--cyan);
+    }
+
+    .game-info {
+      padding: 16px;
+    }
+
+    .game-info h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .game-info p {
+      min-height: 40px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .play-button {
+      flex: 1;
+      padding: 11px;
+      color: #07101a;
+      background: linear-gradient(100deg, var(--cyan), #91f5ff);
+      border: 0;
+      border-radius: 9px;
+      font-weight: 800;
+    }
+
+    .play-button:hover {
+      filter: brightness(1.08);
+    }
+
+    .favorite-btn {
+      width: 42px;
+      height: 42px;
+      flex-shrink: 0;
+      color: var(--muted);
+      background: #0b1020;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      font-size: 20px;
+    }
+
+    .favorite-btn.is-favorite {
+      color: #ff719a;
+      border-color: #ff719a;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px dashed var(--border);
+      border-radius: 15px;
+    }
+
+    #game-player {
+      display: none;
+      margin: 30px 0;
+      overflow: hidden;
+      background: #05070e;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 16px;
+      background: var(--panel);
+    }
+
+    .player-top h2 {
+      font-size: 17px;
+    }
+
+    .player-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .player-actions button {
+      padding: 9px 12px;
+      color: var(--text);
+      background: var(--panel-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    #game-frame {
+      display: block;
+      width: 100%;
+      height: min(70vh, 650px);
+      min-height: 350px;
+      background: #000;
+      border: 0;
+    }
+
+    .player-note {
+      padding: 10px 15px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer {
+      padding: 25px 5%;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      header {
+        padding: 13px 5%;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      main {
+        width: 92%;
+        padding-top: 20px;
+      }
+
+      .hero {
+        padding-top: 30px;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
+      }
+
+      .game-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .game-image {
+        height: 190px;
+      }
+
+      #game-frame {
+        min-height: 300px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-
-<header>
-  <nav class="nav">
+  <header>
     <a class="logo" href="index.html">Play<span>Zone</span></a>
-    <input id="searchInput" class="search" type="search" placeholder="Search games..." aria-label="Search games">
-  </nav>
-</header>
 
-<main>
-  <section class="hero">
-    <h1>Your next favorite game <span>starts here.</span></h1>
-    <p>Discover browser games, save your favorites, and find your recently played games. Your lists are saved in this browser.</p>
-  </section>
+    <div class="search-box">
+      <input id="search-input" type="search"
+             placeholder="Search games..."
+             aria-label="Search games">
+    </div>
+  </header>
 
-  <div class="toolbar">
-    <button id="allView" class="active" onclick="setView('all')">All Games</button>
-    <button id="favoritesView" onclick="setView('favorites')">♥ Favorites</button>
-    <button id="historyView" onclick="setView('history')">Recently Played</button>
-  </div>
+  <main>
+    <section class="hero">
+      <span class="eyebrow">Your gaming destination</span>
+      <h1>Your next favorite game <span>starts here.</span></h1>
+      <p>Discover your next obsession. Play browser games, save your favorites, and jump back into games you've played recently.</p>
+    </section>
 
-  <div class="filters">
-    <button class="active" data-category="all">All</button>
-    <button data-category="arcade">Arcade</button>
-    <button data-category="action">Action</button>
-    <button data-category="sports">Sports</button>
-    <button data-category="simulator">Simulator</button>
-    <button data-category="clicker">Clicker</button>
-  </div>
+    <section id="game-player" aria-label="Game player">
+      <div class="player-top">
+        <h2 id="player-title">Now Playing</h2>
+        <div class="player-actions">
+          <button id="fullscreen-button" type="button">Fullscreen</button>
+          <button id="close-button" type="button">✕ Close</button>
+        </div>
+      </div>
 
-  <div class="section-heading">
-    <h2 id="sectionTitle">All Games</h2>
-    <span id="gameCount"></span>
-  </div>
+      <iframe id="game-frame"
+              title="Browser game"
+              allow="fullscreen; autoplay; gamepad"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin">
+      </iframe>
 
-  <section id="gameGrid" class="game-grid">
+      <p class="player-note">
+        Some games may have their own controls or may not allow embedding on every website.
+      </p>
+    </section>
 
-    <article class="game-card" data-id="amoeba" data-title="Amoeba Online" data-category="arcade" data-url="https://idev.games/embed/amoeba-online">
-      <div class="cover"><img src="images/amoeba.jpg" alt="Amoeba Online" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Amoeba Online</h3><p>Play an online arcade game.</p><div class="card-actions"><button class="play-btn" onclick="playGame('amoeba')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('amoeba')" aria-label="Favorite Amoeba Online">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="ragdoll" data-title="Ragdoll Sandbox" data-category="action" data-url="https://idev.games/embed/ragdoll---sandbox-physics-game">
-      <div class="cover"><img src="images/ragdoll.jpg" alt="Ragdoll Sandbox" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Ragdoll Sandbox</h3><p>Experiment with ragdolls and physics.</p><div class="card-actions"><button class="play-btn" onclick="playGame('ragdoll')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('ragdoll')" aria-label="Favorite Ragdoll Sandbox">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="mma" data-title="Undisputed MMA" data-category="sports" data-url="https://idev.games/embed/undisputed-mma">
-      <div class="cover"><img src="images/mma.jpg" alt="Undisputed MMA" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Undisputed MMA</h3><p>Step into an MMA-style fighting game.</p><div class="card-actions"><button class="play-btn" onclick="playGame('mma')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('mma')" aria-label="Favorite Undisputed MMA">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="helix" data-title="Helix Jump" data-category="arcade" data-url="https://idev.games/embed/helix-jump">
-      <div class="cover"><img src="images/helix.jpg" alt="Helix Jump" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Helix Jump</h3><p>Guide the bouncing ball through the tower.</p><div class="card-actions"><button class="play-btn" onclick="playGame('helix')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('helix')" aria-label="Favorite Helix Jump">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="bitcoin" data-title="Bitcoin Wallet Simulator" data-category="simulator" data-url="https://idev.games/embed/bitcoin-wallet-simulator">
-      <div class="cover"><img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Bitcoin Wallet Simulator</h3><p>Explore a virtual wallet simulator.</p><div class="card-actions"><button class="play-btn" onclick="playGame('bitcoin')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('bitcoin')" aria-label="Favorite Bitcoin Wallet Simulator">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="gem" data-title="Gem Clicker" data-category="clicker" data-url="https://idev.games/embed/gem-clicker">
-      <div class="cover"><img src="images/gem.jpg" alt="Gem Clicker" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Gem Clicker</h3><p>Click and collect gems.</p><div class="card-actions"><button class="play-btn" onclick="playGame('gem')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('gem')" aria-label="Favorite Gem Clicker">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="subway" data-title="Subway Surfers" data-category="arcade" data-url="https://www.madkidgames.com/full/subway-surfers">
-      <div class="cover"><img src="images/subway.jpg" alt="Subway Surfers" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Subway Surfers</h3><p>Dodge obstacles and keep running.</p><div class="card-actions"><button class="play-btn" onclick="playGame('subway')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('subway')" aria-label="Favorite Subway Surfers">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="bowmasters" data-title="Bowmasters" data-category="action" data-url="https://www.madkidgames.com/full/bowmasters-archery-shooting">
-      <div class="cover"><img src="images/bowmasters.jpg" alt="Bowmasters" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Bowmasters</h3><p>Aim carefully in this archery game.</p><div class="card-actions"><button class="play-btn" onclick="playGame('bowmasters')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('bowmasters')" aria-label="Favorite Bowmasters">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="cookie" data-title="Cookie Clicker" data-category="clicker" data-url="cookie-clicker/index.html">
-      <div class="cover"><img src="images/cookie.jpg" alt="Cookie Clicker" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Cookie Clicker</h3><p>Make cookies and build your cookie empire.</p><div class="card-actions"><button class="play-btn" onclick="playGame('cookie')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('cookie')" aria-label="Favorite Cookie Clicker">♡</button></div></div>
-    </article>
-
-    <article class="game-card" data-id="geometry" data-title="Geometry Dash Lite" data-category="arcade" data-url="geometry-dash.html">
-      <div class="cover"><img src="images/geometry-dash.jpg" alt="Geometry Dash Lite" onerror="this.style.display='none'"></div>
-      <div class="game-info"><h3>Geometry Dash Lite</h3><p>Jump over obstacles to the rhythm.</p><div class="card-actions"><button class="play-btn" onclick="playGame('geometry')">Play Now</button><button class="fav-btn" onclick="toggleFavorite('geometry')" aria-label="Favorite Geometry Dash Lite">♡</button></div></div>
-    </article>
-
-  </section>
-
-  <section id="playerPanel" class="player-panel">
-    <div class="player-top">
-      <h2 id="playerTitle">Game</h2>
-      <div class="player-controls">
-        <button onclick="toggleFullscreen()">Fullscreen</button>
-        <button onclick="closeGame()">Close Game</button>
+    <div class="toolbar">
+      <div class="view-buttons">
+        <button class="active" data-view="all" type="button">All Games</button>
+        <button data-view="favorites" type="button">♥ Favorites</button>
+        <button data-view="recent" type="button">Recently Played</button>
       </div>
     </div>
-    <iframe id="gameFrame" title="PlayZone game" allow="fullscreen; autoplay; gamepad; clipboard-read; clipboard-write" allowfullscreen></iframe>
-    <div class="player-note">Some games are hosted by other websites. If a game doesn't load here, the hosting site may block embedding.</div>
-  </section>
-</main>
 
-<footer>PlayZone — Your next favorite game starts here.</footer>
+    <div class="categories" aria-label="Filter games by category">
+      <button class="active" data-category="all" type="button">All</button>
+      <button data-category="arcade" type="button">Arcade</button>
+      <button data-category="action" type="button">Action</button>
+      <button data-category="sports" type="button">Sports</button>
+      <button data-category="simulator" type="button">Simulator</button>
+      <button data-category="clicker" type="button">Clicker</button>
+    </div>
 
-<script>
-const STORAGE = {
-  favorites: "playzone_favorites_v1",
-  history: "playzone_history_v1"
-};
+    <div class="section-heading">
+      <h2 id="section-title">All Games</h2>
+      <span id="game-count">11 games</span>
+    </div>
 
-let currentView = "all";
-let currentCategory = "all";
-let currentSearch = "";
+    <section class="game-grid" id="game-grid">
 
-const cards = Array.from(document.querySelectorAll(".game-card"));
-const gameGrid = document.getElementById("gameGrid");
+      <article class="game-card"
+        data-id="amoeba"
+        data-title="Amoeba Online"
+        data-category="arcade"
+        data-url="https://idev.games/embed/amoeba-online">
+        <div class="game-image">
+          <img src="images/amoeba.jpg" alt="Amoeba Online"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">AMOEBA</div>
+        </div>
+        <div class="game-info">
+          <h3>Amoeba Online</h3>
+          <p>Grow, explore, and enjoy this online arcade game.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Amoeba Online" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function readStorage(key) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return Array.isArray(value) ? value : [];
-  } catch {
-    return [];
-  }
-}
+      <article class="game-card"
+        data-id="ragdoll"
+        data-title="Ragdoll Sandbox"
+        data-category="action"
+        data-url="https://idev.games/embed/ragdoll---sandbox-physics-game">
+        <div class="game-image">
+          <img src="images/ragdoll.jpg" alt="Ragdoll Sandbox"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">RAGDOLL</div>
+        </div>
+        <div class="game-info">
+          <h3>Ragdoll Sandbox</h3>
+          <p>Experiment with ragdoll physics in a sandbox.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Ragdoll Sandbox" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function saveStorage(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.warn("PlayZone could not save browser data:", error);
-  }
-}
+      <article class="game-card"
+        data-id="undisputed-mma"
+        data-title="Undisputed MMA"
+        data-category="sports"
+        data-url="https://idev.games/embed/undisputed-mma">
+        <div class="game-image">
+          <img src="images/mma.jpg" alt="Undisputed MMA"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">MMA</div>
+        </div>
+        <div class="game-info">
+          <h3>Undisputed MMA</h3>
+          <p>Step into the arena in this fighting game.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Undisputed MMA" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function getFavorites() {
-  return readStorage(STORAGE.favorites);
-}
+      <article class="game-card"
+        data-id="helix-jump"
+        data-title="Helix Jump"
+        data-category="arcade"
+        data-url="https://idev.games/embed/helix-jump">
+        <div class="game-image">
+          <img src="images/helix.jpg" alt="Helix Jump"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">HELIX JUMP</div>
+        </div>
+        <div class="game-info">
+          <h3>Helix Jump</h3>
+          <p>Guide the bouncing ball through the twisting tower.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Helix Jump" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function getHistory() {
-  return readStorage(STORAGE.history);
-}
+      <article class="game-card"
+        data-id="bitcoin-wallet"
+        data-title="Bitcoin Wallet Simulator"
+        data-category="simulator"
+        data-url="https://idev.games/embed/bitcoin-wallet-simulator">
+        <div class="game-image">
+          <img src="images/bitcoin.jpg" alt="Bitcoin Wallet Simulator"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">BITCOIN</div>
+        </div>
+        <div class="game-info">
+          <h3>Bitcoin Wallet Simulator</h3>
+          <p>Explore a virtual wallet in this simulator game.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Bitcoin Wallet Simulator" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function toggleFavorite(id) {
-  let favorites = getFavorites();
+      <article class="game-card"
+        data-id="gem-clicker"
+        data-title="Gem Clicker"
+        data-category="clicker"
+        data-url="https://idev.games/embed/gem-clicker">
+        <div class="game-image">
+          <img src="images/gem.jpg" alt="Gem Clicker"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">GEM CLICKER</div>
+        </div>
+        <div class="game-info">
+          <h3>Gem Clicker</h3>
+          <p>Click, collect gems, and keep building your score.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Gem Clicker" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-  if (favorites.includes(id)) {
-    favorites = favorites.filter(item => item !== id);
-  } else {
-    favorites.push(id);
-  }
+      <article class="game-card"
+        data-id="subway-surfers"
+        data-title="Subway Surfers"
+        data-category="arcade"
+        data-url="https://www.madkidgames.com/full/subway-surfers">
+        <div class="game-image">
+          <img src="images/subway.jpg" alt="Subway Surfers"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">SUBWAY SURFERS</div>
+        </div>
+        <div class="game-info">
+          <h3>Subway Surfers</h3>
+          <p>Dodge obstacles and race through the subway tracks.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Subway Surfers" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-  saveStorage(STORAGE.favorites, favorites);
-  updateFavoriteButtons();
-  renderGames();
-}
+      <article class="game-card"
+        data-id="bowmasters"
+        data-title="Bowmasters"
+        data-category="action"
+        data-url="https://www.madkidgames.com/full/bowmasters-archery-shooting">
+        <div class="game-image">
+          <img src="images/bowmasters.jpg" alt="Bowmasters"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">BOWMASTERS</div>
+        </div>
+        <div class="game-info">
+          <h3>Bowmasters</h3>
+          <p>Test your aim in this physics-based action game.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Bowmasters" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function updateFavoriteButtons() {
-  const favorites = getFavorites();
+      <article class="game-card"
+        data-id="cookie-clicker"
+        data-title="Cookie Clicker"
+        data-category="clicker"
+        data-url="cookie-clicker/index.html">
+        <div class="game-image">
+          <img src="images/cookie.jpg" alt="Cookie Clicker"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">COOKIE CLICKER</div>
+        </div>
+        <div class="game-info">
+          <h3>Cookie Clicker</h3>
+          <p>Click cookies, earn more, and build your cookie empire.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Cookie Clicker" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-  cards.forEach(card => {
-    const button = card.querySelector(".fav-btn");
-    const isFavorite = favorites.includes(card.dataset.id);
+      <article class="game-card"
+        data-id="geometry-dash"
+        data-title="Geometry Dash Lite"
+        data-category="arcade"
+        data-url="geometry-dash.html">
+        <div class="game-image">
+          <img src="images/geometry-dash.jpg" alt="Geometry Dash Lite"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">GEOMETRY DASH</div>
+        </div>
+        <div class="game-info">
+          <h3>Geometry Dash Lite</h3>
+          <p>Jump over obstacles and see how far you can go.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Geometry Dash Lite" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-    button.classList.toggle("is-favorite", isFavorite);
-    button.textContent = isFavorite ? "♥" : "♡";
-    button.setAttribute("aria-pressed", String(isFavorite));
-  });
-}
+      <article class="game-card"
+        data-id="rocket-goal"
+        data-title="Rocket Goal.io"
+        data-category="sports"
+        data-url="https://www.twoplayergames.org/embed/rocket-goal-io">
+        <div class="game-image">
+          <img src="images/rocket-goal.jpg" alt="Rocket Goal.io"
+               onerror="this.style.display='none'">
+          <div class="image-fallback">ROCKET GOAL.IO</div>
+        </div>
+        <div class="game-info">
+          <h3>Rocket Goal.io</h3>
+          <p>Drive, boost, and score in this rocket-powered soccer game.</p>
+          <div class="card-actions">
+            <button class="play-button" data-action="play" type="button">Play Now</button>
+            <button class="favorite-btn" data-action="favorite" aria-label="Favorite Rocket Goal.io" type="button">♥</button>
+          </div>
+        </div>
+      </article>
 
-function playGame(id) {
-  const card = cards.find(item => item.dataset.id === id);
-  if (!card) return;
+    </section>
+  </main>
 
-  const history = getHistory();
-  const entry = {
-    id: card.dataset.id,
-    title: card.dataset.title,
-    url: card.dataset.url,
-    playedAt: Date.now()
-  };
+  <footer>
+    <p>© <span id="year"></span> PlayZone. Your next game is waiting.</p>
+  </footer>
 
-  const updatedHistory = [
-    entry,
-    ...history.filter(item => item.id !== id)
-  ].slice(0, 20);
+  <script>
+    const FAVORITES_KEY = "playzone_favorites_v1";
+    const HISTORY_KEY = "playzone_history_v1";
 
-  saveStorage(STORAGE.history, updatedHistory);
+    const grid = document.getElementById("game-grid");
+    const cards = Array.from(document.querySelectorAll(".game-card"));
+    const searchInput = document.getElementById("search-input");
+    const sectionTitle = document.getElementById("section-title");
+    const gameCount = document.getElementById("game-count");
+    const player = document.getElementById("game-player");
+    const playerTitle = document.getElementById("player-title");
+    const gameFrame = document.getElementById("game-frame");
 
-  document.getElementById("playerTitle").textContent = entry.title;
-  document.getElementById("gameFrame").src = entry.url;
+    let currentView = "all";
+    let currentCategory = "all";
 
-  const panel = document.getElementById("playerPanel");
-  panel.style.display = "block";
-  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    function readStorage(key) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+      } catch {
+        return [];
+      }
+    }
 
-  renderGames();
-}
+    function saveStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (error) {
+        console.warn("Could not save PlayZone data:", error);
+      }
+    }
 
-function closeGame() {
-  document.getElementById("gameFrame").src = "about:blank";
-  document.getElementById("playerPanel").style.display = "none";
-}
+    function getFavorites() {
+      return readStorage(FAVORITES_KEY);
+    }
 
-function toggleFullscreen() {
-  const frame = document.getElementById("gameFrame");
-  if (frame.requestFullscreen) {
-    frame.requestFullscreen().catch(() => {
-      alert("Fullscreen isn't available here.");
+    function getHistory() {
+      return readStorage(HISTORY_KEY);
+    }
+
+    function updateFavoriteButtons() {
+      const favorites = getFavorites();
+
+      cards.forEach(card => {
+        const button = card.querySelector('[data-action="favorite"]');
+        const isFavorite = favorites.includes(card.dataset.id);
+
+        button.classList.toggle("is-favorite", isFavorite);
+        button.setAttribute("aria-pressed", String(isFavorite));
+        button.setAttribute(
+          "aria-label",
+          (isFavorite ? "Remove from favorites: " : "Add to favorites: ") +
+          card.dataset.title
+        );
+      });
+    }
+
+    function toggleFavorite(id) {
+      let favorites = getFavorites();
+
+      if (favorites.includes(id)) {
+        favorites = favorites.filter(item => item !== id);
+      } else {
+        favorites.push(id);
+      }
+
+      saveStorage(FAVORITES_KEY, favorites);
+      updateFavoriteButtons();
+      renderGames();
+    }
+
+    function playGame(card) {
+      if (!card) return;
+
+      const url = card.dataset.url;
+      const title = card.dataset.title;
+      const id = card.dataset.id;
+
+      if (!url) return;
+
+      let history = getHistory().filter(item => item !== id);
+      history.unshift(id);
+      history = history.slice(0, 20);
+      saveStorage(HISTORY_KEY, history);
+
+      playerTitle.textContent = "Now Playing: " + title;
+      gameFrame.src = url;
+      player.style.display = "block";
+
+      renderGames();
+      player.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeGame() {
+      gameFrame.src = "about:blank";
+      player.style.display = "none";
+    }
+
+    function toggleFullscreen() {
+      if (gameFrame.requestFullscreen) {
+        gameFrame.requestFullscreen().catch(() => {
+          alert("Fullscreen is not available for this game in your browser.");
+        });
+      } else {
+        alert("Fullscreen is not supported by this browser.");
+      }
+    }
+
+    function setView(view) {
+      currentView = view;
+
+      document.querySelectorAll("[data-view]").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === view);
+      });
+
+      const titles = {
+        all: "All Games",
+        favorites: "Your Favorites",
+        recent: "Recently Played"
+      };
+
+      sectionTitle.textContent = titles[view] || "All Games";
+      renderGames();
+    }
+
+    function setCategory(category) {
+      currentCategory = category;
+
+      document.querySelectorAll(".categories [data-category]").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.dataset.category === category
+        );
+      });
+
+      renderGames();
+    }
+
+    function renderGames() {
+      const search = searchInput.value.trim().toLowerCase();
+      const favorites = getFavorites();
+      const history = getHistory();
+
+      let visibleCards = cards.filter(card => {
+        const matchesSearch =
+          card.dataset.title.toLowerCase().includes(search);
+
+        const matchesCategory =
+          currentCategory === "all" ||
+          card.dataset.category === currentCategory;
+
+        let matchesView = true;
+
+        if (currentView === "favorites") {
+          matchesView = favorites.includes(card.dataset.id);
+        } else if (currentView === "recent") {
+          matchesView = history.includes(card.dataset.id);
+        }
+
+        return matchesSearch && matchesCategory && matchesView;
+      });
+
+      if (currentView === "recent") {
+        visibleCards.sort(
+          (a, b) =>
+            history.indexOf(a.dataset.id) -
+            history.indexOf(b.dataset.id)
+        );
+      }
+
+      cards.forEach(card => {
+        card.style.display = "none";
+      });
+
+      visibleCards.forEach(card => {
+        card.style.display = "";
+        grid.appendChild(card);
+      });
+
+      gameCount.textContent =
+        visibleCards.length + (visibleCards.length === 1 ? " game" : " games");
+
+      const existingEmpty = grid.querySelector(".empty-state");
+      if (existingEmpty) existingEmpty.remove();
+
+      if (visibleCards.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+
+        if (currentView === "favorites" && favorites.length === 0) {
+          empty.textContent =
+            "You haven't favorited any games yet. Press the ♥ button on a game to save it here.";
+        } else if (currentView === "recent" && history.length === 0) {
+          empty.textContent =
+            "You haven't played any games yet. Choose a game to get started.";
+        } else {
+          empty.textContent =
+            "No games found. Try another search or category.";
+        }
+
+        grid.appendChild(empty);
+      }
+
+      updateFavoriteButtons();
+    }
+
+    document.querySelectorAll("[data-view]").forEach(button => {
+      button.addEventListener("click", () => setView(button.dataset.view));
     });
-  }
-}
 
-function setView(view) {
-  currentView = view;
-
-  document.getElementById("allView").classList.toggle("active", view === "all");
-  document.getElementById("favoritesView").classList.toggle("active", view === "favorites");
-  document.getElementById("historyView").classList.toggle("active", view === "history");
-
-  const titles = {
-    all: "All Games",
-    favorites: "Your Favorites",
-    history: "Recently Played"
-  };
-
-  document.getElementById("sectionTitle").textContent = titles[view];
-  renderGames();
-}
-
-function showAllGames() {
-  setView("all");
-}
-
-function showFavorites() {
-  setView("favorites");
-}
-
-function showHistory() {
-  setView("history");
-}
-
-function renderGames() {
-  const favorites = getFavorites();
-  const history = getHistory();
-  const historyIds = history.map(item => item.id);
-
-  cards.forEach(card => {
-    const id = card.dataset.id;
-    const title = card.dataset.title.toLowerCase();
-    const category = card.dataset.category;
-
-    const matchesSearch = title.includes(currentSearch);
-    const matchesCategory =
-      currentCategory === "all" || category === currentCategory;
-
-    let matchesView = true;
-
-    if (currentView === "favorites") {
-      matchesView = favorites.includes(id);
-    } else if (currentView === "history") {
-      matchesView = historyIds.includes(id);
-    }
-
-    card.classList.toggle(
-      "hidden",
-      !(matchesSearch && matchesCategory && matchesView)
-    );
-
-    card.style.order =
-      currentView === "history" && historyIds.includes(id)
-        ? historyIds.indexOf(id)
-        : "";
-  });
-
-  const visibleCards = cards.filter(card => !card.classList.contains("hidden"));
-  document.getElementById("gameCount").textContent =
-    visibleCards.length + (visibleCards.length === 1 ? " game" : " games");
-
-  let message = document.getElementById("emptyState");
-
-  if (visibleCards.length === 0) {
-    if (!message) {
-      message = document.createElement("div");
-      message.id = "emptyState";
-      message.className = "empty-state";
-      gameGrid.after(message);
-    }
-
-    if (currentView === "favorites") {
-      message.textContent = "No favorites yet. Press a heart on a game to save it here.";
-    } else if (currentView === "history") {
-      message.textContent = "You haven't played any games yet. Start a game and it will appear here.";
-    } else {
-      message.textContent = "No games found. Try another search or category.";
-    }
-
-    message.classList.remove("hidden");
-  } else if (message) {
-    message.classList.add("hidden");
-  }
-}
-
-document.getElementById("searchInput").addEventListener("input", event => {
-  currentSearch = event.target.value.trim().toLowerCase();
-  renderGames();
-});
-
-document.querySelectorAll(".filters button").forEach(button => {
-  button.addEventListener("click", () => {
-    currentCategory = button.dataset.category;
-
-    document.querySelectorAll(".filters button").forEach(item => {
-      item.classList.toggle("active", item === button);
+    document.querySelectorAll(".categories [data-category]").forEach(button => {
+      button.addEventListener("click", () => {
+        setCategory(button.dataset.category);
+      });
     });
 
+    grid.addEventListener("click", event => {
+      const playButton = event.target.closest('[data-action="play"]');
+      const favoriteButton = event.target.closest('[data-action="favorite"]');
+
+      if (playButton) {
+        playGame(playButton.closest(".game-card"));
+      }
+
+      if (favoriteButton) {
+        toggleFavorite(favoriteButton.closest(".game-card").dataset.id);
+      }
+    });
+
+    searchInput.addEventListener("input", renderGames);
+    document.getElementById("close-button").addEventListener("click", closeGame);
+    document.getElementById("fullscreen-button").addEventListener("click", toggleFullscreen);
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    updateFavoriteButtons();
     renderGames();
-  });
-});
-
-updateFavoriteButtons();
-renderGames();
-</script>
-
+  </script>
 </body>
 </html>
