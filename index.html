@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PlayZone | Browser Games</title>
   <meta name="description" content="Play free browser games on PlayZone.">
+
   <style>
     :root {
       --bg: #0b1020;
@@ -13,7 +15,6 @@
       --text: #f4f7ff;
       --muted: #a7b2cc;
       --accent: #7c5cff;
-      --accent2: #28d7a0;
       --border: #2b3855;
     }
 
@@ -32,14 +33,9 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .topbar {
+    .topbar, main {
       max-width: 1400px;
       margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
     }
 
     .logo {
@@ -56,11 +52,7 @@
       font-size: 14px;
     }
 
-    main {
-      max-width: 1400px;
-      margin: auto;
-      padding: 30px 6%;
-    }
+    main { padding: 30px 6%; }
 
     .hero { margin-bottom: 26px; }
 
@@ -71,23 +63,19 @@
 
     .hero p {
       color: var(--muted);
-      margin: 0;
       line-height: 1.6;
     }
 
     .search {
       width: 100%;
       padding: 15px 17px;
-      margin: 24px 0 16px;
+      margin: 15px 0;
       background: var(--panel);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 16px;
-      outline: none;
     }
-
-    .search:focus { border-color: var(--accent); }
 
     .filters {
       display: flex;
@@ -95,6 +83,8 @@
       gap: 10px;
       margin-bottom: 30px;
     }
+
+    button { font-family: inherit; }
 
     .filter {
       background: var(--panel);
@@ -106,8 +96,7 @@
       font-weight: bold;
     }
 
-    .filter.active,
-    .filter:hover {
+    .filter.active, .filter:hover {
       background: var(--accent);
       border-color: var(--accent);
       color: white;
@@ -182,8 +171,7 @@
       gap: 8px;
     }
 
-    .play-button,
-    .favorite-button {
+    .play-button, .favorite-button {
       border: 0;
       padding: 11px 10px;
       border-radius: 9px;
@@ -251,7 +239,7 @@
 
     #game-frame {
       width: 100%;
-      height: min(72vh, 750px);
+      height: min(75vh, 800px);
       min-height: 400px;
       display: block;
       background: #000;
@@ -270,7 +258,12 @@
     @media (max-width: 600px) {
       header { padding: 20px 5%; }
       main { padding: 24px 5%; }
-      .game-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+
+      .game-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
       .game-image { height: 115px; }
       .game-info { padding: 11px; }
       .game-info h3 { font-size: 15px; }
@@ -285,13 +278,12 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <div class="topbar">
-      <div>
-        <div class="logo">Play<span>Zone</span></div>
-        <div class="tagline">Your next favorite game starts here.</div>
-      </div>
+      <div class="logo">Play<span>Zone</span></div>
+      <div class="tagline">Your next favorite game starts here.</div>
     </div>
   </header>
 
@@ -332,7 +324,6 @@
         title="Game player"
         allow="fullscreen; autoplay; gamepad"
         allowfullscreen
-        loading="lazy"
       ></iframe>
     </section>
 
@@ -352,9 +343,7 @@
     </section>
   </main>
 
-  <footer>
-    PlayZone — Find a game, jump in, and have fun.
-  </footer>
+  <footer>PlayZone — Find a game, jump in, and have fun.</footer>
 
   <script>
     const games = [
@@ -436,16 +425,14 @@
         url: "https://www.twoplayergames.org/embed/rocket-goal-io"
       },
 
-      /* NEW MINECRAFT GAME
-         This replaces the old Minecraft 2D card.
-         Keep the complete repository files in minecraft-game/.
-      */
+      /* One Minecraft card only.
+         The game files are in the ROOT of the repository. */
       {
-        id: "minecraft-game",
+        id: "minecraft-pokemon",
         title: "Minecraft Pokémon Edition",
         category: "arcade",
-        image: "minecraft-game/images/mclogo.png",
-        url: "minecraft-game/minecraft.html"
+        image: "images/mclogo.png",
+        url: "minecraft.html"
       }
     ];
 
@@ -490,6 +477,7 @@
       image.src = game.image;
       image.alt = game.title;
       image.loading = "lazy";
+
       image.onerror = () => {
         image.onerror = null;
         image.style.display = "none";
@@ -517,11 +505,10 @@
       favorite.className = "favorite-button";
       favorite.dataset.action = "favorite";
       favorite.setAttribute("aria-label", "Toggle favorite");
-      favorite.textContent = getFavorites().includes(game.id) ? "♥" : "♡";
-      favorite.classList.toggle(
-        "is-favorite",
-        getFavorites().includes(game.id)
-      );
+
+      const isFavorite = getFavorites().includes(game.id);
+      favorite.textContent = isFavorite ? "♥" : "♡";
+      favorite.classList.toggle("is-favorite", isFavorite);
 
       actions.append(play, favorite);
       info.append(title, category, actions);
@@ -541,7 +528,8 @@
 
         const matchesFilter =
           activeFilter === "all" ||
-          (activeFilter === "favorites" && favorites.includes(game.id)) ||
+          (activeFilter === "favorites" &&
+            favorites.includes(game.id)) ||
           game.category === activeFilter;
 
         return matchesSearch && matchesFilter;
@@ -552,7 +540,8 @@
       if (filtered.length === 0) {
         const empty = document.createElement("p");
         empty.className = "empty";
-        empty.textContent = "No games found. Try another search or filter.";
+        empty.textContent =
+          "No games found. Try another search or filter.";
         grid.append(empty);
       } else {
         filtered.forEach(game => grid.append(makeCard(game)));
@@ -561,7 +550,7 @@
       document.getElementById("game-count").textContent =
         `${filtered.length} game${filtered.length === 1 ? "" : "s"}`;
 
-      const headingNames = {
+      const headings = {
         all: "All Games",
         arcade: "Arcade Games",
         action: "Action Games",
@@ -572,21 +561,19 @@
       };
 
       document.getElementById("grid-heading").textContent =
-        headingNames[activeFilter] || "Games";
+        headings[activeFilter] || "Games";
     }
 
     function renderRecent() {
       const section = document.getElementById("recent-section");
       const grid = document.getElementById("recent-grid");
-      const history = getHistory();
 
-      const recentGames = history
+      const recentGames = getHistory()
         .map(id => games.find(game => game.id === id))
         .filter(Boolean)
         .slice(0, 4);
 
       grid.replaceChildren();
-
       recentGames.forEach(game => grid.append(makeCard(game)));
       section.hidden = recentGames.length === 0;
     }
@@ -600,7 +587,6 @@
       document.getElementById("player-title").textContent = game.title;
       player.style.display = "block";
 
-      // Avoid reloading the game if it is already open.
       if (frame.dataset.currentUrl !== game.url) {
         frame.src = game.url;
         frame.dataset.currentUrl = game.url;
@@ -615,8 +601,6 @@
     }
 
     function toggleFavorite(game) {
-      if (!game) return;
-
       let favorites = getFavorites();
 
       if (favorites.includes(game.id)) {
