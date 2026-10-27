@@ -39,18 +39,14 @@
     }
 
     .logo {
-  display: inline-block;
-  color: var(--text);
-  text-decoration: none;
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: -1px;
-  cursor: pointer;
-}
-
-.logo span {
-  color: var(--accent);
-}
+      display: inline-block;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      cursor: pointer;
+    }
 
     .logo span { color: var(--accent); }
 
@@ -109,6 +105,7 @@
     .filter.active,
     .filter:hover {
       background: var(--accent);
+      border-color: var(--accent);
       color: white;
     }
 
@@ -194,6 +191,8 @@
       color: white;
       background: var(--accent);
     }
+
+    .play-button:hover { filter: brightness(1.15); }
 
     .favorite-button {
       background: var(--panel-light);
@@ -290,9 +289,10 @@
 <body>
   <header>
     <div class="topbar">
-<a class="logo" href="index.html" title="Reload PlayZone homepage">
-  Play<span>Zone</span>
-</a>      <div class="tagline">Your next favorite game starts here.</div>
+      <a class="logo" href="index.html" title="Reload PlayZone homepage">
+        Play<span>Zone</span>
+      </a>
+      <div class="tagline">Your next favorite game starts here.</div>
     </div>
   </header>
 
